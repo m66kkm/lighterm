@@ -1,0 +1,132 @@
+@import './variables.css';
+
+/* 设置页面主容器 */
+.settings-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* 左侧菜单区域 */
+.settings-sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--bg-lighter);
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+}
+
+/* 设置菜单样式 */
+.settings-menu {
+  background-color: transparent !important;
+  border-right: none !important;
+}
+
+/* 菜单项样式 */
+.ant-menu-item {
+  color: var(--text-muted) !important;
+}
+
+.ant-menu-item-selected {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-color) !important;
+}
+
+.ant-menu-item:hover {
+  color: var(--text-color) !important;
+}
+
+/* 右侧内容区域 */
+.settings-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* 设置分区 */
+.settings-section {
+  max-width: 800px;
+}
+
+/* 设置项 */
+.settings-item {
+  display: flex;
+  margin-bottom: var(--item-spacing);
+  align-items: flex-start;
+}
+
+.settings-item-label {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.settings-item-control {
+  width: 240px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* 设置标题样式 */
+.ant-typography {
+  color: var(--text-color) !important;
+}
+
+h4.ant-typography {
+  margin-bottom: 5px !important;
+}
+
+.ant-typography + h2.ant-typography {
+  margin-top: 40px;
+}
+
+/* 描述文字 */
+.ant-typography.ant-typography-secondary {
+  color: var(--text-secondary) !important;
+}
+
+/* 标题区域样式 */
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* Logo 容器 */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
+}
+
+.logo-image img {
+  width: 100%;
+  height: 100%;
+}
+
+.logo-text h2 {
+  font-size: 36px;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.logo-text p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* 开关样式 */
+.ant-switch {
+  background-color: #444 !important;
+}
+
+.ant-switch-checked {
+  background-color: var(--accent-color) !important;
+}

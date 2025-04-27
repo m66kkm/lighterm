@@ -1,0 +1,31 @@
+/* 全局CSS变量 */
+:root {
+  /* 颜色变量 */
+  --bg-color: #1e1e1e;
+  --bg-lighter: #252525;
+  --text-color: #f0f0f0;
+  --text-muted: #aaa;
+  --text-secondary: #999;
+  --border-color: #333;
+  --accent-color: #1890ff;
+  
+  /* 字体变量 */
+  --font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  --font-code: 'Consolas', 'Courier New', monospace;
+  --font-size-normal: 16px;
+  --font-size-small: 14px;
+  --line-height-normal: 24px;
+  
+  /* 布局变量 */
+  --sidebar-width: 230px;
+  --tab-height: 36px;
+  --item-spacing: 30px;
+  
+  /* 动画变量 */
+  --transition-normal: 0.25s;
+  --transition-slow: 0.75s;
+  
+  /* 杂项 */
+  --border-radius: 0;
+  --shadow-normal: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
