@@ -7,11 +7,12 @@
   display: flex;
   flex-direction: column;
   background-color: var(--bg-color);
+  position: relative;
 }
 
 /* 终端内容样式 */
 .terminal-content {
-  height: 100%;
+  height: calc(100% - 28px); /* 留出footer的空间 */
   width: 100%;
   padding: 10px;
   background-color: var(--bg-color);
@@ -43,4 +44,62 @@
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* 终端底部状态栏样式 */
+.terminal-footer {
+  height: 28px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  color: #aaa;
+  font-family: var(--font-code);
+  font-size: 12px;
+  padding: 0 10px;
+  border-top: 1px solid #333;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  user-select: none;
+}
+
+.terminal-footer-left {
+  text-align: left;
+  flex: 1;
+}
+
+.terminal-footer-center {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex: 3;
+}
+
+.terminal-footer-center span {
+  padding: 0 8px;
+}
+
+.terminal-footer-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.terminal-footer-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cpu-stat {
+  color: #6eff6e; /* 绿色 */
+}
+
+.memory-stat {
+  color: #6e9fff; /* 蓝色 */
 }

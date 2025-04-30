@@ -24,9 +24,9 @@ const SettingsHeader: React.FC<SettingsHeaderProps> = ({ onCheckUpdate }) => {
   return (
     <div className="settings-header">
       <Logo 
-        title="Tabby" 
-        version="1.0.223" 
-        imageSrc="https://tabby.sh/static/a80f27fa3a7a2a40d145.png" 
+        title="Lighterm" 
+        version="0.1" 
+        imageSrc="" 
       />
       <div className="check-update-btn">
         <Button icon={<SyncOutlined />} onClick={onCheckUpdate}>

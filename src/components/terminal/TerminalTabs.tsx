@@ -77,7 +77,14 @@ const TerminalTabs: React.FC = () => {
         key: item.key,
         label: item.label,
         closable: tabs.length > 1,
-        children: <TerminalContent content={item.content} />
+        children: (
+          <TerminalContent 
+            id={item.key} 
+            defaultContent={item.content}
+            shellType={item.path?.includes('powershell') ? 'powershell' : 'bash'}
+            dimensions={{ cols: 30, rows: 9 }}
+          />
+        )
       }))}
     />
   );

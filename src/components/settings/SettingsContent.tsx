@@ -33,30 +33,22 @@ const SettingsContent: React.FC = () => {
       {selectedSettingsKey === 'app' && (
         <div className="settings-section">
           <SettingsHeader onCheckUpdate={handleCheckUpdate} />
-
-          <Title level={2}>应用程序设置</Title>
+          <hr/>
+          
+          <Title level={3}>应用程序设置</Title>
 
           <SettingsItem 
-            title="语言" 
-            description={<a href="#" style={{ color: '#61aaee' }}>帮助翻译Tabby</a>}
+            title="语言"
           >
             <Select defaultValue="zh-cn" style={{ width: 240 }}>
               <Option value="zh-cn">中文（简体）</Option>
               <Option value="en">English</Option>
-              <Option value="zh-tw">中文（繁体）</Option>
             </Select>
           </SettingsItem>
 
           <SettingsItem 
             title="Shell 焦点" 
             description="允许在选定的文件夹中快速打开终端"
-          >
-            <Switch />
-          </SettingsItem>
-
-          <SettingsItem 
-            title="启用分析" 
-            description="我们只获取您的 Tabby 和操作系统版本信息。"
           >
             <Switch />
           </SettingsItem>
@@ -71,13 +63,15 @@ const SettingsContent: React.FC = () => {
           <SettingsItem title="调试">
             <Button icon={<ToolOutlined />}>开启开发者工具</Button>
           </SettingsItem>
-
-          <Title level={2}>辅助功能</Title>
+          
+          <hr/>
+          
+          <Title level={3}>辅助功能</Title>
 
           <SettingsItem title="开启动画效果">
             <Switch defaultChecked />
           </SettingsItem>
-
+          
           <SettingsItem title="最低对比度">
             <Input defaultValue="4" style={{ width: 240 }} />
           </SettingsItem>

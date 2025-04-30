@@ -20,8 +20,8 @@ const Logo: React.FC<LogoProps> = ({ title, version, imageSrc }) => {
         </div>
       )}
       <div className="logo-text">
-        <h2>{title}<sup>α</sup></h2>
-        <p>{version}</p>
+        <h2>{title}</h2>
+        <p>alpha {version}</p>
       </div>
     </div>
   );

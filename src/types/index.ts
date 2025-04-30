@@ -48,5 +48,11 @@ export interface TabBarProps {
  * 终端内容属性
  */
 export interface TerminalContentProps {
-  content: string;
+  id: string;
+  defaultContent?: string;
+  shellType?: string;
+  dimensions?: {
+    cols: number;
+    rows: number;
+  };
 }
