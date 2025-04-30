@@ -17,13 +17,7 @@ const TabActions: React.FC<TabBarProps> = ({
     <div className="tab-actions">
       <IconButton icon={<PlusOutlined />} onClick={onAddTab} />
       <IconButton icon={<SettingOutlined />} onClick={onToggleSettings} />
-      {!showSettings && (
-        <>
-          <IconButton icon={<MinusOutlined />} />
-          <IconButton icon={<ExpandOutlined />} />
-          <IconButton icon={<CloseCircleOutlined />} />
-        </>
-      )}
+      <IconButton icon={<ExpandOutlined />} />    
     </div>
   );
 };

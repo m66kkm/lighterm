@@ -5,6 +5,7 @@ import { useSettings } from '../../context/SettingsContext';
 import TabBar from '../tabs/TabBar';
 import TerminalContent from './TerminalContent';
 import SettingsPage from '../settings/SettingsPage';
+import { ConnectionState, ConnectionMode, ShellType, WindowDimensions, ContentStatus } from '../../types';
 import '../../styles/tabs.css';
 import '../../styles/terminal.css';
 
@@ -81,7 +82,12 @@ const TerminalTabs: React.FC = () => {
           <TerminalContent 
             id={item.key} 
             defaultContent={item.content}
-            shellType={item.path?.includes('powershell') ? 'powershell' : 'bash'}
+            sessionStatus={{
+              connectionState: item.path?.includes('remote') ? ConnectionState.Disconnected : ConnectionState.Connected,
+              connectionMode: item.path?.includes('remote') ? ConnectionMode.Remote : ConnectionMode.Local,
+              shellType: item.path?.includes('powershell') ? ShellType.PowerShell : 
+                        item.path?.includes('cmd') ? ShellType.Cmd : ShellType.Zsh
+            }}
             dimensions={{ cols: 30, rows: 9 }}
           />
         )

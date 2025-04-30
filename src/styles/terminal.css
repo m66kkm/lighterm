@@ -93,7 +93,7 @@
 .terminal-footer-stats {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 20px;
 }
 
 .cpu-stat {
@@ -102,4 +102,15 @@
 
 .memory-stat {
   color: #6e9fff; /* 蓝色 */
+}
+
+/* 连接状态样式 */
+.connected {
+  color: #6eff6e; /* 绿色 */
+  font-weight: bold;
+}
+
+.disconnected {
+  color: #ff6e6e; /* 红色 */
+  font-weight: bold;
 }

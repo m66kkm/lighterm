@@ -3,6 +3,9 @@ pub mod sysinfo;
 pub mod theme;
 pub mod hotkeys;
 
+// 导入窗口状态插件
+use tauri_plugin_window_state as window_state;
+
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -13,9 +16,11 @@ fn greet(name: &str) -> String {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(window_state::Builder::default().build()) // 使用窗口状态插件
         .setup(|app| {
             // 设置热键监听器
             hotkeys::setup_hotkey_listener(app)?;
+            
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![

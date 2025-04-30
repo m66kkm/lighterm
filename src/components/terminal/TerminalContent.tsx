@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TerminalContentProps } from '../../types';
+import { TerminalContentProps, ConnectionState, ConnectionMode, ShellType, ContentStatus, CursorPosition, WindowDimensions } from '../../types';
 import '../../styles/terminal.css';
 import { Terminal } from '@xterm/xterm';
 import '@xterm/xterm/css/xterm.css';
-// 从Tauri v2版本导入invoke函数
+import { listen } from '@tauri-apps/api/event';
 import { invoke } from '@tauri-apps/api/core';
-
+import { Window } from '@tauri-apps/api/window';
+import TerminalFooter from './TerminalFooter';
 
 /**
  * 终端内容组件
@@ -14,15 +15,22 @@ import { invoke } from '@tauri-apps/api/core';
 const TerminalContent: React.FC<TerminalContentProps> = ({ 
   id, 
   defaultContent = '', 
-  shellType = 'powershell',
+  sessionStatus = {
+    connectionState: ConnectionState.Connected,
+    connectionMode: ConnectionMode.Local,
+    shellType: ShellType.PowerShell
+  },
   dimensions = { cols: 30, rows: 9 }
 }) => {
   const terminalRef = useRef<HTMLDivElement>(null);
   // 这个状态变量暂时不使用，但将来可能需要在其他功能中使用
   const [_terminal, setTerminal] = useState<Terminal | null>(null);
-  const [currentTime, setCurrentTime] = useState<string>('');
-  const [cpuUsage, setCpuUsage] = useState<string>('6.5%');
-  const [memoryUsage, setMemoryUsage] = useState<string>('17.45/31.92 GiB');
+  
+  // 终端内容状态：窗口大小和光标位置
+  const [contentStatus, setContentStatus] = useState<ContentStatus>({
+    dimensions: dimensions || { cols: 30, rows: 9 },
+    position: { x: 0, y: 0 }
+  });
   
   // 初始化xterm终端
   useEffect(() => {
@@ -50,15 +58,15 @@ const TerminalContent: React.FC<TerminalContentProps> = ({
       }
       
       // 写入欢迎消息
-      term.write(`\r\n\x1b[1;32m欢迎使用 LighTerm 终端 (${shellType})\x1b[0m\r\n\r\n`);
-      term.write(`${shellType}> `);
+      term.write(`\r\n\x1b[1;32m欢迎使用 LighTerm 终端 (${sessionStatus.shellType})\x1b[0m\r\n\r\n`);
+      term.write(`${sessionStatus.shellType}> `);
       
       // 添加输入处理
       term.onData(data => {
         // 这里可以添加与后端shell交互的逻辑
         term.write(data);
         if (data === '\r') {
-          term.write(`\n${shellType}> `);
+          term.write(`\n${sessionStatus.shellType}> `);
         }
       });
       
@@ -69,74 +77,85 @@ const TerminalContent: React.FC<TerminalContentProps> = ({
         term.dispose();
       };
     }
-  }, [id, defaultContent, dimensions, shellType]);
+  }, [id, defaultContent, dimensions, sessionStatus]);
   
-  // 更新当前时间
+  // 监听终端光标位置变化
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const timeString = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
-      const dateString = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()} ${timeString}`;
-      setCurrentTime(dateString);
-    };
-    
-    updateTime();
-    const timeInterval = setInterval(updateTime, 60000); // 每分钟更新一次
-    
-    return () => clearInterval(timeInterval);
-  }, []);
-  
-  // 从Rust后端获取系统资源使用情况
+    if (_terminal) {
+      // 添加光标位置事件监听
+      _terminal.onCursorMove(() => {
+        // 尝试获取光标位置
+        if (_terminal.buffer && _terminal.buffer.active) {
+          setContentStatus(prev => ({
+            ...prev,
+            position: {
+              x: _terminal.buffer.active.cursorX,
+              y: _terminal.buffer.active.cursorY
+            }
+          }));
+        }
+      });
+    }
+  }, [_terminal]);
+
+  // 监听窗口大小变化
   useEffect(() => {
-    const updateSystemStats = async () => {
+    // 初始获取窗口大小
+    const fetchWindowSize = async () => {
       try {
-        // 调用Rust的get_system_info命令
-        const sysInfo: string[] = await invoke('get_system_info');
+        // 使用Tauri窗口API获取窗口大小
+        const appWindow = Window.getCurrent();
+        const size = await appWindow.innerSize();
         
-        // 更新状态
-        if (sysInfo && sysInfo.length === 3) {
-          setCpuUsage(sysInfo[0]);
-          setMemoryUsage(`${sysInfo[1]}/${sysInfo[2]} GiB`);
+        // 估算终端列数和行数（基于字体大小）
+        const fontWidth = 10; // 估算值：每个字符宽10像素
+        const fontHeight = 16; // 估算值：每个字符高16像素
+        const cols = Math.floor(size.width / fontWidth);
+        const rows = Math.floor(size.height / fontHeight);
+        
+        setContentStatus(prev => ({
+          ...prev,
+          dimensions: { cols, rows }
+        }));
+        
+        // 如果终端实例存在，也更新xterm的大小
+        if (_terminal) {
+          _terminal.resize(cols, rows);
         }
       } catch (error) {
-        console.error('获取系统信息失败:', error);
-        // 发生错误时使用默认值
-        setCpuUsage('0.0%');
-        setMemoryUsage('0.00/0.00 GiB');
+        console.error('获取窗口大小失败:', error);
       }
     };
     
-    // 立即更新一次
-    updateSystemStats();
+    fetchWindowSize();
     
-    // 设置定时更新
-    const statsInterval = setInterval(updateSystemStats, 3000);
-    return () => clearInterval(statsInterval);
-  }, []);
+    // 监听窗口大小变化事件
+    const listenToResizeEvents = async () => {
+      const appWindow = Window.getCurrent();
+      const unlisten = await appWindow.onResized(() => {
+        fetchWindowSize(); // 窗口大小变化时重新获取
+      });
+      
+      return unlisten;
+    };
+    
+    // 设置监听并返回清理函数
+    let unlistenPromise = listenToResizeEvents();
+    
+    return () => {
+      // 清理监听器
+      unlistenPromise.then(unlisten => unlisten());
+    };
+  }, [_terminal]);
   
   return (
     <div className="terminal-container">
       <div className="terminal-content" ref={terminalRef}></div>
       
-      <div className="terminal-footer">
-        <div className="terminal-footer-left">
-          就绪
-        </div>
-        <div className="terminal-footer-center">
-          <span>远程模式</span>
-          <span>窗口 {dimensions.cols}×{dimensions.rows}</span>
-          <span>行 {dimensions.rows}</span>
-          <span>字符 {dimensions.cols}</span>
-          <span>{shellType}</span>
-        </div>
-        <div className="terminal-footer-right">
-          <span>{currentTime}</span>
-          <span className="terminal-footer-stats">
-            <span className="cpu-stat">{cpuUsage}</span>
-            <span className="memory-stat">{memoryUsage}</span>
-          </span>
-        </div>
-      </div>
+      <TerminalFooter
+        sessionStatus={sessionStatus}
+        contentStatus={contentStatus}
+      />
     </div>
   );
 };
