@@ -23,12 +23,6 @@ export const TerminalProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       label: "C:\\Program Files\\Pow...",
       content: "lighterm on main via v20.11.1\n16:46:26 > ",
       path: "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
-    },
-    {
-      key: "2",
-      label: "C:\\Program Files\\Pow...",
-      content: "",
-      path: "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
     }
   ]);
 

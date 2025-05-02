@@ -1,7 +1,8 @@
 /* 全局CSS变量 */
 :root {
   /* 颜色变量 */
-  --bg-color: #1e1e1e;
+  --bg-color: #323232;
+  --inactive-bg-color: #1e1e1e;
   --bg-lighter: #252525;
   --text-color: #f0f0f0;
   --text-muted: #aaa;
@@ -15,6 +16,24 @@
   --font-size-normal: 16px;
   --font-size-small: 14px;
   --line-height-normal: 24px;
+  
+  /* 区域特定字体及字体大小 */
+  /* 标题栏 */
+  --font-titlebar: '微软雅黑', 'Microsoft YaHei', sans-serif;
+  --font-size-titlebar: 14px;
+  --font-size-titlebar-version: 10px; /* 版本号特殊大小 */
+  
+  /* 标签栏 */
+  --font-tabbar: '微软雅黑', 'Microsoft YaHei', sans-serif;
+  --font-size-tabbar: 14px;
+  
+  /* 终端内容 */
+  --font-terminal: 'Source Code Pro','微软雅黑', 'Microsoft YaHei';
+  --font-size-terminal: 14px;
+  
+  /* 底部状态栏 */
+  --font-footer: '微软雅黑', 'Microsoft YaHei', sans-serif;
+  --font-size-footer: 12px;
   
   /* 布局变量 */
   --sidebar-width: 230px;

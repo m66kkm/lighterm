@@ -1,0 +1,12 @@
+/* 应用图标样式 */
+.app-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.app-icon svg {
+  width: 20px;
+  height: 20px;
+}

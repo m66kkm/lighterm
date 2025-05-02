@@ -1,0 +1,42 @@
+/* Ant Design主题配置 */
+@import './variables.css';
+
+/* 
+  这个文件定义了应用中使用的Ant Design组件的主题样式
+  与variables.css配合使用，确保整个应用的样式一致性
+*/
+
+:root {
+  /* Ant Design主题变量 - 这些会被映射到Ant Design的token系统 */
+  --ant-color-bg-container: var(--inactive-bg-color); /* #1e1e1e */
+  --ant-color-text: var(--text-color); /* #f0f0f0 */
+  --ant-color-bg-elevated: var(--inactive-bg-color); /* #1e1e1e */
+  --ant-border-radius: var(--border-radius); /* 0 */
+  
+  /* Tab相关的颜色 */
+  --tab-active-bg: var(--bg-color); /* 活动标签背景色 */
+  --tab-inactive-bg: var(--inactive-bg-color); /* 非活动标签背景色 */
+  
+  /* 终端相关颜色 */
+  --terminal-footer-bg: #111; /* 终端底部状态栏背景色 */
+  --terminal-footer-text: #aaa; /* 终端底部状态栏文本颜色 */
+  --terminal-footer-border: #333; /* 终端底部状态栏边框颜色 */
+  
+  /* 状态颜色 */
+  --status-success: #6eff6e; /* 成功状态颜色（绿色） */
+  --status-error: #ff6e6e; /* 错误状态颜色（红色） */
+  --status-info: #6e9fff; /* 信息状态颜色（蓝色） */
+  --status-warning: #ffde6e; /* 警告状态颜色（黄色） */
+  
+  /* XTerm 终端样式变量 */
+  --xterm-font-size: var(--font-size-terminal);
+  --xterm-font-family: var(--font-terminal);
+  --xterm-bg-color: #323232; /* 与--bg-color保持一致 */
+  --xterm-text-color: #d4d4d4; /* 终端文本颜色 */
+  --xterm-cursor-color: #d4d4d4; /* 终端光标颜色 */
+  --xterm-selection-bg: rgba(255, 255, 255, 0.3); /* 终端选中文本的背景色 */
+  --xterm-font-width: 10px; /* 估算值：每个字符宽度 */
+  --xterm-font-height: 16px; /* 估算值：每个字符高度 */
+}
+
+/* 由于我们是通过JavaScript代码设置主题，这里提供CSS变量以保持一致性 */

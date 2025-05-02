@@ -1,23 +1,14 @@
 import React from 'react';
-import { PlusOutlined, SettingOutlined, MinusOutlined, ExpandOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import { TabBarProps } from '../../types';
-import IconButton from '../common/IconButton';
 import '../../styles/tabs.css';
 
 /**
  * 标签栏操作按钮组件
- * 显示标签栏右侧的操作按钮
+ * 现已移除所有按钮，保留组件以便后续扩展
  */
-const TabActions: React.FC<TabBarProps> = ({ 
-  showSettings,
-  onAddTab,
-  onToggleSettings
-}) => {
+const TabActions: React.FC = () => {
   return (
     <div className="tab-actions">
-      <IconButton icon={<PlusOutlined />} onClick={onAddTab} />
-      <IconButton icon={<SettingOutlined />} onClick={onToggleSettings} />
-      <IconButton icon={<ExpandOutlined />} />    
+      {/* 按照要求移除添加标签和全屏按钮 */}
     </div>
   );
 };

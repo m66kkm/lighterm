@@ -43,14 +43,14 @@ pub fn get_system_info() -> Vec<String> {
     // 确保CPU使用率在合理范围内
     let cpu_usage = cpu_usage.min(100.0);
     
-    // 获取内存信息 (转换为GB并保留2位小数)
+    // 获取内存信息 (转换为GB并保留1位小数)
     let used_memory = sys.used_memory() as f64 / 1024.0 / 1024.0 / 1024.0;
     let total_memory = sys.total_memory() as f64 / 1024.0 / 1024.0 / 1024.0;
     
     // 格式化数据
     let cpu_percent = format!("{:.1}%", cpu_usage);
-    let used_mem_gb = format!("{:.2}", used_memory);
-    let total_mem_gb = format!("{:.2}", total_memory);
+    let used_mem_gb = format!("{:.1}", used_memory);
+    let total_mem_gb = format!("{:.1}", total_memory);
     
     // 返回结果数组
     vec![cpu_percent, used_mem_gb, total_mem_gb]

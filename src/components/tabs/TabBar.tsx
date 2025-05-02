@@ -1,28 +1,19 @@
 import React from 'react';
-import { TabBarProps } from '../../types';
-import TabActions from './TabActions';
 import '../../styles/tabs.css';
 
 /**
  * 自定义标签栏组件
- * 包含标签和右侧操作按钮
+ * 仅包含标签，移除了右侧操作按钮
  */
-const TabBar: React.FC<TabBarProps & {
+const TabBar: React.FC<{
   children: React.ReactNode;
 }> = ({ 
-  children, 
-  showSettings, 
-  onAddTab, 
-  onToggleSettings 
+  children
 }) => {
   return (
     <div className="tab-bar-container">
       <div style={{ flex: 1 }}>{children}</div>
-      <TabActions 
-        showSettings={showSettings}
-        onAddTab={onAddTab}
-        onToggleSettings={onToggleSettings}
-      />
+      {/* 移除了TabActions组件，不再显示操作按钮 */}
     </div>
   );
 };

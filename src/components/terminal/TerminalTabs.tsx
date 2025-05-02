@@ -5,7 +5,7 @@ import { useSettings } from '../../context/SettingsContext';
 import TabBar from '../tabs/TabBar';
 import TerminalContent from './TerminalContent';
 import SettingsPage from '../settings/SettingsPage';
-import { ConnectionState, ConnectionMode, ShellType, WindowDimensions, ContentStatus } from '../../types';
+import { ConnectionState, ConnectionMode, ShellType } from '../../types';
 import '../../styles/tabs.css';
 import '../../styles/terminal.css';
 
@@ -36,13 +36,9 @@ const TerminalTabs: React.FC = () => {
     }
   };
 
-  // 自定义标签栏渲染
+  // 自定义标签栏渲染（用于普通终端标签）
   const renderTabBar = (props: any, DefaultTabBar: React.ComponentType<any>) => (
-    <TabBar
-      showSettings={showSettings}
-      onAddTab={addTab}
-      onToggleSettings={toggleSettings}
-    >
+    <TabBar>
       <DefaultTabBar {...props} />
     </TabBar>
   );
@@ -52,16 +48,18 @@ const TerminalTabs: React.FC = () => {
     return (
       <Tabs
         activeKey="settings"
-        type="editable-card"
+        type="card" // 改为card类型，不显示添加按钮
+        addIcon={null} // 确保不显示添加图标
+        hideAdd={true} // 隐藏添加按钮
         items={[
           {
             key: "settings",
-            label: "设置",
+            label: <span style={{ fontSize: '25px', fontWeight: 'bold' }}>设置</span>, // 增大设置字体
             closable: false,
             children: <SettingsPage onClose={() => toggleSettings()} />
           }
         ]}
-        renderTabBar={renderTabBar}
+        // renderTabBar={renderSettingsTabBar} // 使用设置页面专用的标签栏渲染函数
       />
     );
   }
@@ -73,11 +71,11 @@ const TerminalTabs: React.FC = () => {
       activeKey={activeTab}
       onChange={handleTabChange}
       onEdit={handleTabEdit}
-      renderTabBar={renderTabBar}
-      items={tabs.map(item => ({
+      // renderTabBar={null}
+      items={tabs.map((item, index) => ({
         key: item.key,
-        label: item.label,
-        closable: tabs.length > 1,
+        label: <span><strong>{index + 1}</strong> {item.label}</span>,
+        closable: true, // 始终设置为可关闭，但通过CSS控制显示
         children: (
           <TerminalContent 
             id={item.key} 

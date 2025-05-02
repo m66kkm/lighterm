@@ -17,8 +17,8 @@
   padding: 10px;
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-family: var(--font-code);
-  font-size: var(--font-size-small);
+  font-family: var(--font-terminal);
+  font-size: var(--font-size-terminal);
   overflow: auto;
   white-space: pre-wrap;
   display: flex;
@@ -30,6 +30,13 @@
   font-family: inherit;
   white-space: pre-wrap;
 }
+
+
+/* 确保所有xterm子元素继承字体设置 */
+.terminal-content .xterm * {
+    /* font-family: inherit !important; */
+}
+
 
 /* 终端光标样式 */
 .terminal-cursor {
@@ -53,64 +60,84 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #111;
-  color: #aaa;
-  font-family: var(--font-code);
-  font-size: 12px;
+  background-color: var(--terminal-footer-bg);
+  color: var(--terminal-footer-text);
+  font-family: var(--font-footer);
+  font-size: var(--font-size-footer);
   padding: 0 10px;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--terminal-footer-border);
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   user-select: none;
+  white-space: nowrap; /* 防止内容换行 */
+  overflow: hidden; /* 隐藏溢出内容 */
 }
 
-.terminal-footer-left {
-  text-align: left;
+/* 状态栏分组样式 */
+.footer-group {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.footer-item {
+  margin: 0 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 文本溢出时显示省略号 */
+}
+
+/* 第一组：连接和Shell信息 */
+.connection-group {
   flex: 1;
+  min-width: 200px;
+  max-width: 30%;
+  justify-content: flex-start;
 }
 
-.terminal-footer-center {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex: 3;
+.connection-group span:first-child {
+  margin-right: 12px;
 }
 
-.terminal-footer-center span {
-  padding: 0 8px;
+/* 第二组：窗口和位置信息 */
+.content-group {
+  flex: 1;
+  min-width: 220px;
+  max-width: 40%;
+  justify-content: center; /* 改回居中对齐，与图片一致 */
 }
 
-.terminal-footer-right {
-  display: flex;
+/* 第三组：系统信息 */
+.system-group {
+  flex: 1;
+  min-width: 220px;
+  max-width: 30%;
   justify-content: flex-end;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
+  padding-right: 15px; /* 添加右侧边距，与左侧对称 */
 }
 
-.terminal-footer-stats {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+.system-group .time-item {
+  margin-right: 12px;
 }
 
 .cpu-stat {
-  color: #6eff6e; /* 绿色 */
+  color: var(--status-success); /* 绿色 */
 }
 
 .memory-stat {
-  color: #6e9fff; /* 蓝色 */
+  color: var(--status-info); /* 蓝色 */
 }
 
 /* 连接状态样式 */
 .connected {
-  color: #6eff6e; /* 绿色 */
+  color: var(--status-success); /* 绿色 */
   font-weight: bold;
 }
 
 .disconnected {
-  color: #ff6e6e; /* 红色 */
+  color: var(--status-error); /* 红色 */
   font-weight: bold;
 }

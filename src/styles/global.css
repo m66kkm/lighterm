@@ -27,6 +27,22 @@ body, html {
   width: 100vw;
 }
 
+/* 应用容器（包含标题栏和终端容器） */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+/* 终端容器 */
+.terminal-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 /* 重置一些元素的默认样式 */
 button, input, select, textarea {
   font-family: inherit;

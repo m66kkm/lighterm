@@ -1,0 +1,30 @@
+/* 窗口控制按钮样式 */
+.window-controls {
+  display: flex;
+  align-items: center;
+  -webkit-app-region: no-drag; /* 确保按钮区域不被用作拖拽区域 */
+}
+
+.window-native-controls {
+  display: flex;
+  margin-left: 8px;
+}
+
+.window-control-btn {
+  background: transparent;
+  color: #fff;
+  transition: background-color 0.2s;
+}
+
+.window-control-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.settings-btn {
+  margin-right: 8px;
+}
+
+.close-btn:hover {
+  background-color: #e81123;
+  color: #fff;
+}

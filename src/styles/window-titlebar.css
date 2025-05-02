@@ -1,0 +1,41 @@
+@import './variables.css';
+
+/* 窗口标题栏样式 */
+.window-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  height: 32px;
+  background-color: #1a1a1a;
+  color: #fff;
+  -webkit-app-region: drag; /* 使整个标题栏可拖动 */
+  user-select: none; /* 防止文本被选中 */
+  font-family: var(--font-titlebar);
+}
+
+.titlebar-left {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* 标题样式 */
+.titlebar-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.title-text {
+  font-size: var(--font-size-titlebar);
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.version-text {
+  font-size: var(--font-size-titlebar-version);
+  opacity: 0.7;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { TerminalContentProps, ConnectionState, ConnectionMode, ShellType, ContentStatus, CursorPosition, WindowDimensions } from '../../types';
 import '../../styles/terminal.css';
+import '../../styles/theme.css';
 import { Terminal } from '@xterm/xterm';
 import '@xterm/xterm/css/xterm.css';
 import { listen } from '@tauri-apps/api/event';
@@ -35,16 +36,24 @@ const TerminalContent: React.FC<TerminalContentProps> = ({
   // 初始化xterm终端
   useEffect(() => {
     if (terminalRef.current) {
+      // 获取CSS变量
+      const computedStyle = getComputedStyle(document.documentElement);
+      const getFontSize = () => {
+        const size = computedStyle.getPropertyValue('--xterm-font-size').trim();
+        return parseInt(size, 10) || 14; // 默认为14px
+      };
+      
       // 创建新的终端实例
       const term = new Terminal({
         cursorBlink: true,
-        fontSize: 14,
-        fontFamily: 'Consolas, "Courier New", monospace',
+        fontSize: getFontSize(),
         theme: {
-          background: '#1e1e1e',
-          foreground: '#d4d4d4',
-          cursor: '#d4d4d4'
+          background: computedStyle.getPropertyValue('--xterm-bg-color').trim() || '#323232',
+          foreground: computedStyle.getPropertyValue('--xterm-text-color').trim() || '#d4d4d4',
+          cursor: computedStyle.getPropertyValue('--xterm-cursor-color').trim() || '#d4d4d4',
+          selectionBackground: computedStyle.getPropertyValue('--xterm-selection-bg').trim() || 'rgba(255, 255, 255, 0.3)'
         },
+        letterSpacing: 1,
         cols: dimensions.cols,
         rows: dimensions.rows
       });
@@ -107,9 +116,16 @@ const TerminalContent: React.FC<TerminalContentProps> = ({
         const appWindow = Window.getCurrent();
         const size = await appWindow.innerSize();
         
+        // 从CSS变量获取字体尺寸
+        const computedStyle = getComputedStyle(document.documentElement);
+        const getFontSize = (property: string, defaultValue: number): number => {
+          const value = computedStyle.getPropertyValue(property).trim();
+          return parseInt(value, 10) || defaultValue;
+        };
+        
         // 估算终端列数和行数（基于字体大小）
-        const fontWidth = 10; // 估算值：每个字符宽10像素
-        const fontHeight = 16; // 估算值：每个字符高16像素
+        const fontWidth = getFontSize('--xterm-font-width', 10); // 从CSS变量获取或使用默认值
+        const fontHeight = getFontSize('--xterm-font-height', 16); // 从CSS变量获取或使用默认值
         const cols = Math.floor(size.width / fontWidth);
         const rows = Math.floor(size.height / fontHeight);
         

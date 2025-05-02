@@ -24,26 +24,65 @@
 }
 
 .ant-tabs-tab {
-  background-color: var(--bg-lighter) !important;
+  background-color: var(--tab-inactive-bg) !important; /* 非活动标签深色背景 */
   border: none !important;
-  border-radius: var(--border-radius) !important;
+  border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
   color: var(--text-muted) !important;
   margin-right: 1px !important;
   padding: 6px 12px !important;
+  position: relative; /* 为关闭按钮定位 */
+  transition: background-color 0.2s ease;
+  width: 200px !important; /* 固定标签宽度为200px */
+  box-sizing: border-box; /* 确保padding包含在宽度内 */
+  font-family: var(--font-tabbar);
+  font-size: var(--font-size-tabbar);
 }
 
 .ant-tabs-tab-active {
-  background-color: var(--bg-color) !important;
+  background-color: var(--tab-active-bg) !important; /* 活动标签与终端内容区域背景一致 */
   color: var(--text-color) !important;
 }
 
 .ant-tabs-tab-btn {
   color: inherit !important;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 标签编号样式 */
+.ant-tabs-tab span {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* 标签序号与标签文本之间的间距 */
+.ant-tabs-tab span strong {
+  margin-right: 10px; /* 控制序号和标签文本之间的间距 */
+}
+
+.ant-tabs-tab span::first-child {
+  font-weight: bold;
+  margin-right: 8px;
 }
 
 .ant-tabs-tab-remove {
   color: var(--text-muted) !important;
   margin-left: 6px !important;
+  display: none !important; /* 默认隐藏关闭按钮 */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.ant-tabs-tab:hover .ant-tabs-tab-remove {
+  display: inline-block !important; /* 鼠标悬停时显示关闭按钮 */
+  opacity: 1;
 }
 
 .ant-tabs-tab-remove:hover {
